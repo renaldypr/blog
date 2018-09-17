@@ -18,10 +18,16 @@ app.use('/users', userRoute);
 app.use('/articles', articleRoute);
 app.use('/comments', commentRoute);
 
-mlabUsername = process.env.MLAB_USERNAME;
-mlabPassword = process.env.MLAB_PASSWORD;
+const mlabUsername = process.env.MLAB_USERNAME;
+const mlabPassword = process.env.MLAB_PASSWORD;
 
-mongoose.connect(`mongodb://${mlabUsername}:${mlabPassword}@ds259912.mlab.com:59912/blog-test`, { useNewUrlParser: true })
+if (process.env.NODE_ENV === 'test') {
+  var url = '@ds259912.mlab.com:59912/blog-test'
+} else {
+  var url = '@ds259912.mlab.com:59912/blog-main'
+}
+
+mongoose.connect(`mongodb://${mlabUsername}:${mlabPassword}${url}`, { useNewUrlParser: true })
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -31,3 +37,5 @@ db.once('open', function() {
 app.listen(3000, () => {
   console.log('listening on port 3000!')
 })
+
+module.exports = app;

@@ -36,10 +36,10 @@ module.exports = {
       })
   },
   erase: function(req,res) {
-    User.deleteOne({ _id: req.decoded.id }, function (err) {
+    User.deleteOne({ _id: req.decoded.id }, function (err, data) {
       if(!err) {
         res.status(200).json({
-          message: 'user deleted successfully',
+          message: 'user deleted successfully'
         })
       } else {
         res.status(500).json({
@@ -56,7 +56,8 @@ module.exports = {
           user.password = req.body.password
           user.save()
           res.status(200).json({
-            message: 'user edited successfully!'
+            message: 'user edited successfully!',
+            data: user.name
           })
         } else {
           res.status(404).json({
