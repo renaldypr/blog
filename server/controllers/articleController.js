@@ -86,7 +86,8 @@ module.exports = {
             article.content = req.body.content
             article.save()
             res.status(200).json({
-              message: 'article edited successfully!'
+              message: 'article edited successfully!',
+              data: article
             })
           } else {
             res.status(500).json({

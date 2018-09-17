@@ -89,7 +89,7 @@ describe('User', function() {
         })
     })
   })
-  describe('DELETE | delete a user', function() {
+  describe('DELETE | delete own user while logged in', function() {
     it('should return a success message', function(done) {
       chai.request(app)
         .delete('/users')
@@ -103,8 +103,8 @@ describe('User', function() {
         })
     })
   })
-  describe('PATCH | edit a user', function() {
-    it('should return a success message', function(done) {
+  describe('PATCH | edit logged user data', function() {
+    it('should return a success message and the user\'s new data', function(done) {
       chai.request(app)
         .patch('/users')
         .set('token', tempToken)
