@@ -1,13 +1,10 @@
 <template>
-  <div class="home">
-    <h1>Welcome to BlogIt</h1>
-  </div>
+  <h1>This is the article form page</h1>
 </template>
 
 <script>
 export default {
-  name: 'home',
-
+  name: 'ArticleForm'
 }
 </script>
 

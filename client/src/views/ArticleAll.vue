@@ -1,12 +1,9 @@
 <template>
-  <div class="home">
-    <h1>Welcome to BlogIt</h1>
-  </div>
+  <h1>All article!</h1>
 </template>
 
 <script>
 export default {
-  name: 'home',
 
 }
 </script>
