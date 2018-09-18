@@ -34,11 +34,6 @@ export default new Router({
           component: () => import('./views/ArticleForm.vue')
         }
       ]
-    },
-    {
-      path: '/articles/:id',
-      name: 'articles',
-      component: () => import('./views/ArticleForm.vue')
     }
   ]
 })

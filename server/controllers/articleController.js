@@ -25,6 +25,36 @@ module.exports = {
       }
     })
   },
+  showOne: function(req,res) {
+    Article.findOne({ _id: req.params.id })
+      .populate('userId')
+      .populate({
+        path: 'comments',
+        model: 'Comment',
+        populate: {
+            path: 'userId',
+            model: 'User'
+        }
+      })
+      .exec((err, article) => {
+      if(!err) {
+        if(article) {
+          res.status(200).json({
+            message: 'find one articles success!',
+            data: article
+          })
+        } else {
+          res.status(500).json({
+            message: 'article not found!'
+          })
+        }
+      } else {
+        res.status(500).json({
+          message: err
+        })
+      }
+    })
+  },
   create: function(req,res) {
     Article.create({
       title: req.body.title,

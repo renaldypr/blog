@@ -1,16 +1,21 @@
 <template>
   <div class="home">
-    <h1>Welcome to BlogIt</h1>
+    <p>BlogIt</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'home',
+  name: 'home'
 
 }
 </script>
 
-<style>
-
+<style scoped>
+.home {
+  height: 600px;
+}
+p {
+  font-size: 100px;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <NavBar></NavBar><br>
+    <NavBar></NavBar>
 
     <router-view/>
 
@@ -44,7 +44,7 @@ export default {
 .row {
   height: 550px;
 }
-.col-lg-4 {
+.col-lg-4, .col-lg-8 {
   overflow: scroll;
 }
 </style>
