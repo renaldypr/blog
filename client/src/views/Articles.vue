@@ -2,10 +2,10 @@
   <div class="articles">
     <div class="row">
       <div class="col-lg-4 border-right">
-        <LeftColumn v-on:send-article="getArticle"/>
+        <LeftColumn/>
       </div>
       <div class="col-lg-8">
-        <router-view v-on:send-article="getArticle" v-bind:selectedarticle="currentArticle"/>
+        <router-view/>
       </div>
     </div><br>
   </div>
@@ -15,7 +15,7 @@
 import LeftColumn from '@/components/LeftColumn.vue'
 
 export default {
-  name: 'home',
+  name: 'articles',
   data() {
     return {
       currentArticle: ''
@@ -25,9 +25,7 @@ export default {
     LeftColumn
   },
   methods: {
-    getArticle: function(article){
-      this.currentArticle = article
-    }
+
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <h1>Articles</h1><br>
     <div class="card ml-5 mr-5 mb-4" v-for="(article,index) in articles" :key="index">
       <div class="card-body">
-        <h3><b><router-link class="text-dark" :to="{ name: 'details', params: { id: article._id } }" @click.native="sendArticle(article)">{{ article.title }}</router-link></b></h3>
+        <h3><b><router-link class="text-dark" :to="{ name: 'details', params: { id: article._id } }">{{ article.title }}</router-link></b></h3>
         <p id="author">by: {{ article.userId.name }}</p>
         <p>{{ article.content }}</p>
       </div>
@@ -22,9 +22,7 @@ export default {
     }
   },
   methods: {
-    sendArticle: function(article) {
-      this.$emit('send-article', article)
-    }
+    
   },
   created() {
     let self = this

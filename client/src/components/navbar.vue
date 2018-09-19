@@ -11,7 +11,7 @@
             <router-link class ="nav-link" to="/">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class ="nav-link" to="/articles/all">Articles</router-link>
+            <router-link class ="nav-link" to="/articles">Articles</router-link>
           </li>
           <li class="nav-item">
             <a v-if="!isLogin" class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Login</a>

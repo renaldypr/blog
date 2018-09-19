@@ -1,14 +1,14 @@
 <template>
   <div>
-    <h1>{{ selectedarticle.title }}</h1>
-    <p>by: {{ selectedarticle.userId.name }}</p>
-    <p class="text-left">{{ selectedarticle.content }}</p><br>
+    <h1>{{ currentArticle.title }}</h1>
+    <p>by: {{ currentArticle.userId.name }}</p>
+    <p class="text-left">{{ currentArticle.content }}</p><br>
     <div class="form-group border-top pt-4">
       <p>Comments</p>
       <textarea v-model="commentInput" class="form-control mb-3" rows="4" id="commentInput" placeholder="Post a comment"></textarea>
       <button v-on:click="postComment" type="button" class="btn btn-secondary">Submit</button>
     </div>
-    <div class="card mt-4" v-for="(comment,index) in selectedarticle.comments" :key="index">
+    <div class="card mt-4" v-for="(comment,index) in currentArticle.comments" :key="index">
       <div class="card-body text-left">
         <img class="rounded-circle mr-2" src="https://via.placeholder.com/30x30">
         <p class="mb-4" id="commentAuthor">{{ comment.userId.name }}</p>
@@ -22,10 +22,11 @@
 import axios from 'axios'
 
 export default {
-  props: [ 'selectedarticle' ],
+  props: [ 'id' ],
   data() {
     return {
-      commentInput: ''
+      commentInput: '',
+      currentArticle: ''
     }
   },
   methods: {
@@ -40,11 +41,53 @@ export default {
         },
         data: {
           message: this.commentInput,
-          articleId: this.selectedarticle._id
+          articleId: this.currentArticle._id
         }
       })
         .then(comment => {
           self.commentInput = ''
+          self.refreshArticle(self.currentArticle._id)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    refreshArticle: function(articleId) {
+      let self = this
+      axios({
+        method: 'get',
+        url: `http://localhost:3000/articles/${this.id}`,
+      })
+        .then(article => {
+          self.currentArticle = article.data.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  },
+  created() {
+    let self = this
+    axios({
+      method: 'get',
+      url: `http://localhost:3000/articles/${this.id}`,
+    })
+      .then(article => {
+        self.currentArticle = article.data.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
+  watch: {
+    id: function() {
+      let self = this
+      axios({
+        method: 'get',
+        url: `http://localhost:3000/articles/${this.id}`,
+      })
+        .then(article => {
+          self.currentArticle = article.data.data
         })
         .catch(err => {
           console.log(err)
@@ -66,9 +109,6 @@ img {
   width: 60%;
   margin: 0 auto;
   float: none;
-}
-.btn-secondary {
-  background-color: #1e1544;
 }
 .card {
   width: 60%;

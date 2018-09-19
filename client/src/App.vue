@@ -47,4 +47,7 @@ export default {
 .col-lg-4, .col-lg-8 {
   overflow: scroll;
 }
+.btn-secondary {
+  background-color: #1e1544;
+}
 </style>

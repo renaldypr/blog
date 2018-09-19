@@ -11,10 +11,10 @@
     <br><br>
     <div class="card ml-4 mr-4">
       <div class="card-body">
-        <button type="button" class="btn btn-secondary"><router-link to="/articles/form">Create a new article</router-link></button>
+        <button type="button" class="btn btn-secondary"><router-link :to="{ name: 'form' }">Create a new article</router-link></button>
         <br><br>
         <ul class="list-group">
-          <router-link v-for="(article,index) in articles" :key="index" class ="list-group-item list-group-item-action" :to="{ name: 'details', params: { id: article._id } }" @click.native="sendArticle(article)">{{ article.title }}</router-link>
+          <router-link v-for="(article,index) in articles" :key="index" class ="list-group-item list-group-item-action" :to="{ name: 'details', params: { id: article._id } }">{{ article.title }}</router-link>
         </ul>
       </div>
     </div>
@@ -32,9 +32,7 @@ export default {
     }
   },
   methods: {
-    sendArticle: function(article) {
-      this.$emit('send-article', article)
-    }
+
   },
   created() {
     let self = this
@@ -62,9 +60,6 @@ h3 {
 button a {
   text-decoration: none;
   color: white
-}
-.btn-secondary {
-  background-color: #1e1544;
 }
 .list-group-item:hover {
   background-color: #d0d9d2;

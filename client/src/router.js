@@ -19,7 +19,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Articles.vue'),
       children: [
         {
-          path: 'all',
+          path: '/',
           component: () => import('./views/ArticleAll.vue')
         },
         {
@@ -29,7 +29,7 @@ export default new Router({
           component: () => import('./views/ArticleDetails.vue')
         },
         {
-          path: 'form',
+          path: '/form',
           name: 'form',
           component: () => import('./views/ArticleForm.vue')
         }
