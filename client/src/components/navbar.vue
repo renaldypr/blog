@@ -50,9 +50,11 @@ export default {
       localStorage.removeItem('user')
       localStorage.removeItem('email')
       this.isLogin = false
+      this.$emit('login-status', false)
     },
     changeIsLogin: function(condition) {
       this.isLogin = condition
+      this.$emit('login-status', true)
     }
   },
   data() {

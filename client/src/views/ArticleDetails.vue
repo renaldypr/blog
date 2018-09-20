@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div v-if="ownArticle" class="row float-left">
+    <div v-if="ownArticle" class="row">
       <div class="col-lg-12">
-        <div class="btn-group mb-3">
+        <div class="btn-group pt-2 mb-3">
           <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Article Tools
           </button>
-          <div class="dropdown-menu">
+          <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="#"><router-link :to="{ name: 'editForm', params: { id: id } }">Update Article</router-link></a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#" v-on:click="deleteArticle">Delete Article</a>
@@ -14,22 +14,27 @@
         </div>
       </div>
     </div>
-    <h1>{{ currentArticle.title }}</h1>
-    <p>by: {{ currentArticle.userId.name }}</p>
-    <p class="text-left">{{ currentArticle.content }}</p><br>
-    <div v-if="!isLogin" class="form-group border-top pt-4">
+    <div class="text-left mt-0 mb-4">
+      <img id="authorImage" class="rounded-circle mr-2" src="https://via.placeholder.com/60x60">
+      <p class="author">{{ currentArticle.userId.name }}  |  {{ convertDate(currentArticle.createdAt) }}</p>
+    </div>
+    <div>
+      <h2 class="mb-4"><B>{{ currentArticle.title }}</b></h2>
+      <p v-for="(paragraf,index) in formatContent(currentArticle.content)" :key="index" class="text-left">{{ paragraf }}</p><br>
+    </div>
+    <div v-if="!nowlogin" class="form-group border-top pt-4">
       <p>Please login to post a comment</p>
     </div>
-    <div v-if="isLogin" class="form-group border-top pt-4">
+    <div v-if="nowlogin" class="form-group border-top pt-4">
       <p>Comments</p>
       <textarea v-model="commentInput" class="form-control mb-3" rows="4" id="commentInput" placeholder="Post a comment"></textarea>
       <button v-on:click="postComment" type="button" class="btn btn-secondary">Submit</button>
     </div>
-    <div v-if="isLogin" class="card mt-4" v-for="(comment,index) in comments" :key="index">
+    <div v-if="nowlogin" class="card mt-4" v-for="(comment,index) in comments" :key="index">
       <div class="card-body text-left">
         <img class="rounded-circle mr-2" src="https://via.placeholder.com/30x30">
-        <p class="mb-4" id="commentAuthor">{{ comment.userId.name }}</p>
-        <div v-if="userId === comment.userId.email" class="dropdown">
+        <p class="mb-4 author">{{ comment.userId.name }}</p>
+        <div v-if="checkCommentOwner(comment.userId.email)" class="dropdown">
           <i class="fas fa-ellipsis-v float-right text-muted" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="#" v-on:click="deleteComment(comment._id)">Delete Comment</a>
@@ -45,15 +50,14 @@
 import axios from 'axios'
 
 export default {
-  props: ['id'],
+  props: ['id', 'nowlogin' ],
   data () {
     return {
       comments: [],
       commentInput: '',
       currentArticle: '',
       ownArticle: '',
-      isLogin: '',
-      userId: localStorage.getItem('email')
+      userEmail: localStorage.getItem('email')
     }
   },
   methods: {
@@ -103,12 +107,20 @@ export default {
         this.ownArticle = false
       }
     },
-    getToken: function () {
-      if (localStorage.getItem('token')) {
-        this.isLogin = true
+    checkCommentOwner: function (email) {
+      if (email === localStorage.getItem('email')) {
+        return true
       } else {
-        this.isLogin = false
+        return false
       }
+    },
+    formatContent: function (content) {
+      let newFormat = content.split('\n\n')
+      return newFormat
+    },
+    convertDate: function(date) {
+      let newFormat = String(new Date(date)).split(' ').slice(1,3).join(' ')
+      return newFormat
     },
     deleteArticle: function () {
       let self = this
@@ -154,6 +166,8 @@ export default {
     }
   },
   created () {
+    this.isLogin = this.nowlogin
+
     let self = this
     axios({
       method: 'get',
@@ -166,7 +180,7 @@ export default {
         article.data.data.comments.forEach(comment => {
           self.comments.push(comment)
         })
-        self.getToken()
+        //self.getToken()
       })
       .catch(err => {
         console.log(err)
@@ -186,11 +200,14 @@ export default {
           article.data.data.comments.forEach(comment => {
             self.comments.push(comment)
           })
-          self.getToken()
+          //self.getToken()
         })
         .catch(err => {
           console.log(err)
         })
+    },
+    nowlogin: function() {
+      this.checkArticleOwner(this.currentArticle.userId.email)
     }
   }
 }
@@ -200,14 +217,22 @@ export default {
 a {
   color: black;
   text-decoration: none;
+  font-size: 14px;
+}
+h2 {
+  text-align: left;
 }
 .row {
-  height: 0px;
+  height: 50px;
+  text-align: right;
+}
+.dropdown-toggle {
+  font-size: 13px;
 }
 img {
   display: inline-block;
 }
-#commentAuthor {
+.author {
   display: inline-block;
   font-size: 14px;
 }

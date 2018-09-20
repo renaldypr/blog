@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <NavBar></NavBar>
+    <NavBar v-on:login-status="ChangeLoginStatus"></NavBar>
 
-    <router-view/>
+    <router-view v-bind:islogin="isLogin"/>
 
     <Footer></Footer>
   </div>
@@ -17,6 +17,27 @@ export default {
   components: {
     NavBar,
     Footer
+  },
+  data() {
+    return {
+      isLogin: this.checkLogin()
+    }
+  },
+  methods: {
+    ChangeLoginStatus: function(condition) {
+      if (this.isLogin) {
+        this.isLogin = false
+      } else {
+        this.isLogin = true
+      }
+    },
+    checkLogin: function() {
+      if (localStorage.getItem('token')) {
+        return true
+      } else {
+        return false
+      }
+    }
   }
 }
 </script>

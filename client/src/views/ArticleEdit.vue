@@ -22,7 +22,7 @@ import axios from 'axios'
 
 export default {
   props: [ 'id' ],
-  data() {
+  data () {
     return {
       titleEdit: '',
       contentEdit: ''
@@ -53,7 +53,7 @@ export default {
         })
     }
   },
-  created() {
+  created () {
     let self = this
     axios({
       method: 'get',

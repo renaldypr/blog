@@ -1,11 +1,11 @@
 <template>
   <div class="articles">
     <div class="row">
-      <div class="col-lg-4 border-right">
+      <div class="col-lg-4 pr-0 border-right">
         <LeftColumn v-bind:refresh="refreshArticle"/>
       </div>
-      <div class="col-lg-8">
-        <router-view v-on:refresh-article="generateRefreshArticle"/>
+      <div class="col-lg-8 pl-5 pr-5">
+        <router-view v-bind:nowlogin="islogin" v-on:refresh-article="generateRefreshArticle"/>
       </div>
     </div><br>
   </div>
@@ -16,6 +16,7 @@ import LeftColumn from '@/components/LeftColumn.vue'
 
 export default {
   name: 'articles',
+  props: [ 'islogin' ],
   data() {
     return {
       refreshArticle: false
