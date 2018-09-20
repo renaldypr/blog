@@ -5,13 +5,13 @@
       <div class="card-body">
         <div class="form-group">
           <input id="title" type="text" class="form-control" placeholder="Article Title" required="required" v-model="titleInput">
-        </div>     
+        </div>
         <div class="form-group">
           <textarea v-model="contentInput" class="form-control" rows="6" id="content" placeholder="Write your content"></textarea>
         </div>
         <div class="form-group">
-          <button type="button" class="btn btn-secondary btn-block" v-on:click="submitArticle()">Register</button>
-        </div>  
+          <button type="button" class="btn btn-secondary btn-block" v-on:click="submitArticle()">Post Article</button>
+        </div>
       </div>
     </div>
   </div>
@@ -22,14 +22,14 @@ import axios from 'axios'
 
 export default {
   name: 'ArticleForm',
-  data() {
+  data () {
     return {
       titleInput: '',
       contentInput: ''
     }
   },
   methods: {
-    submitArticle: function() {
+    submitArticle: function () {
       let token = localStorage.getItem('token')
       let self = this
       axios({
@@ -46,6 +46,7 @@ export default {
         .then(article => {
           self.titleInput = ''
           self.contentInput = ''
+          self.$emit('refresh-article')
           self.$router.push(`/articles/${article.data.data._id}`)
         })
         .catch(err => {

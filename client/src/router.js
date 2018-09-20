@@ -32,6 +32,12 @@ export default new Router({
           path: '/form',
           name: 'form',
           component: () => import('./views/ArticleForm.vue')
+        },
+        {
+          path: '/form/:id',
+          name: 'editForm',
+          props: true,
+          component: () => import('./views/ArticleEdit.vue')
         }
       ]
     }

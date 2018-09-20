@@ -2,10 +2,10 @@
   <div class="articles">
     <div class="row">
       <div class="col-lg-4 border-right">
-        <LeftColumn/>
+        <LeftColumn v-bind:refresh="refreshArticle"/>
       </div>
       <div class="col-lg-8">
-        <router-view/>
+        <router-view v-on:refresh-article="generateRefreshArticle"/>
       </div>
     </div><br>
   </div>
@@ -18,14 +18,20 @@ export default {
   name: 'articles',
   data() {
     return {
-      currentArticle: ''
+      refreshArticle: false
     }
   },
   components: {
     LeftColumn
   },
   methods: {
-
+    generateRefreshArticle: function() {
+      if (this.refreshArticle) {
+        this.refreshArticle = false
+      } else {
+        this.refreshArticle = true
+      }
+    }
   }
 }
 </script>

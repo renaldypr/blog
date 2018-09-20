@@ -31,6 +31,7 @@ export default {
       articles: []
     }
   },
+  props: [ 'refresh' ],
   methods: {
 
   },
@@ -48,6 +49,24 @@ export default {
       .catch(err => {
         console.log(err)
       })
+  },
+  watch: {
+    refresh: function(newVal,oldVal) {
+      let self = this
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/articles',
+      })
+        .then(articles => {
+          self.articles = []
+          articles.data.data.forEach(article => {
+            self.articles.push(article)
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
   }
 }
 </script>
