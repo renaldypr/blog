@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>Update Article</h1>
-    <div class="card ml-5 mr-5 mb-4">
+    <h1 class="text-light">Update Article</h1>
+    <div class="card mt-4 ml-5 mr-5 mb-4">
       <div class="card-body">
         <div class="form-group">
           <input id="title" type="text" class="form-control" placeholder="Article Title" required="required" v-model="titleEdit">

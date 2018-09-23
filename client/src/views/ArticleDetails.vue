@@ -1,41 +1,43 @@
 <template>
-  <div>
-    <div v-if="ownArticle" class="row">
+  <div id="details">
+    <div class="row">
       <div class="col-lg-12">
         <div class="btn-group pt-2 mb-3">
-          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn text-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Article Tools
           </button>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#"><router-link :to="{ name: 'editForm', params: { id: id } }">Update Article</router-link></a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" v-on:click="deleteArticle">Delete Article</a>
+            <a v-if="ownArticle" class="dropdown-item" href="#"><router-link :to="{ name: 'editForm', params: { id: id } }">Update Article</router-link></a>
+            <a class="dropdown-item" href="#" v-on:click="translate">Translate Article</a>
+            <div v-if="ownArticle" class="dropdown-divider"></div>
+            <a v-if="ownArticle" class="dropdown-item" href="#" v-on:click="deleteArticle">Delete Article</a>
           </div>
         </div>
       </div>
     </div>
-    <div class="text-left mt-0 mb-4">
+    <div class="text-left text-light mt-0 mb-4">
       <img id="authorImage" class="rounded-circle mr-2" src="https://via.placeholder.com/60x60">
       <p class="author">{{ currentArticle.userId.name }}  |  {{ convertDate(currentArticle.createdAt) }}</p>
     </div>
     <div>
-      <h2 class="mb-4"><B>{{ currentArticle.title }}</b></h2>
-      <p v-for="(paragraf,index) in formatContent(currentArticle.content)" :key="index" class="text-left">{{ paragraf }}</p><br>
+      <h3 class="mb-4 text-light" style="text-transform: uppercase;"><B>{{ currentArticle.title }}</b></h3>
+      <img class="mb-4" src="https://via.placeholder.com/770x300">
+      <p v-for="(paragraf,index) in formatContent(currentArticle.content)" :key="index" class="text-left text-light">{{ paragraf }}</p><br>
     </div>
     <div v-if="!nowlogin" class="form-group border-top pt-4">
-      <p>Please login to post a comment</p>
+      <p class="text-light">Please <a href="#" class="text-light" data-toggle="modal" data-target="#loginModal">login</a> to post a comment</p>
     </div>
     <div v-if="nowlogin" class="form-group border-top pt-4">
-      <p>Comments</p>
+      <p class="text-light">Comments</p>
       <textarea v-model="commentInput" class="form-control mb-3" rows="4" id="commentInput" placeholder="Post a comment"></textarea>
-      <button v-on:click="postComment" type="button" class="btn btn-secondary">Submit</button>
+      <button v-on:click="postComment" type="button" class="btn text-light">Submit</button>
     </div>
-    <div v-if="nowlogin" class="card mt-4" v-for="(comment,index) in comments" :key="index">
+    <div id="comments" class="card mt-4" v-for="(comment,index) in comments" :key="index">
       <div class="card-body text-left">
         <img class="rounded-circle mr-2" src="https://via.placeholder.com/30x30">
         <p class="mb-4 author">{{ comment.userId.name }}</p>
         <div v-if="checkCommentOwner(comment.userId.email)" class="dropdown">
-          <i class="fas fa-ellipsis-v float-right text-muted" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+          <i class="fas fa-ellipsis-v float-right text-dark" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="#" v-on:click="deleteComment(comment._id)">Delete Comment</a>
           </div>
@@ -50,7 +52,7 @@
 import axios from 'axios'
 
 export default {
-  props: ['id', 'nowlogin' ],
+  props: [ 'id', 'nowlogin' ],
   data () {
     return {
       comments: [],
@@ -118,8 +120,8 @@ export default {
       let newFormat = content.split('\n\n')
       return newFormat
     },
-    convertDate: function(date) {
-      let newFormat = String(new Date(date)).split(' ').slice(1,3).join(' ')
+    convertDate: function (date) {
+      let newFormat = String(new Date(date)).split(' ').slice(1, 4).join(' ')
       return newFormat
     },
     deleteArticle: function () {
@@ -163,6 +165,23 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    translate: function () {
+      axios({
+        method: 'post',
+        url: `http://localhost:3000/articles/translate`,
+        data: {
+          title: this.currentArticle.title,
+          content: this.currentArticle.content
+        }
+      })
+        .then(result => {
+          this.currentArticle.title = result.data.data.newTitle
+          this.currentArticle.content = result.data.data.newContent
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   created () {
@@ -180,7 +199,6 @@ export default {
         article.data.data.comments.forEach(comment => {
           self.comments.push(comment)
         })
-        //self.getToken()
       })
       .catch(err => {
         console.log(err)
@@ -200,13 +218,12 @@ export default {
           article.data.data.comments.forEach(comment => {
             self.comments.push(comment)
           })
-          //self.getToken()
         })
         .catch(err => {
           console.log(err)
         })
     },
-    nowlogin: function() {
+    nowlogin: function () {
       this.checkArticleOwner(this.currentArticle.userId.email)
     }
   }
@@ -214,12 +231,12 @@ export default {
 </script>
 
 <style scoped>
-a {
+.dropdown-menu a {
   color: black;
   text-decoration: none;
   font-size: 14px;
 }
-h2 {
+h3 {
   text-align: left;
 }
 .row {
@@ -245,5 +262,8 @@ img {
   width: 60%;
   margin: 0 auto;
   float: none;
+}
+#comments {
+  background: rgba(255, 255, 255, 0.5);
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>Post a New Article</h1>
-    <p class="mt-4" v-if="!nowlogin">Please login to post an article</p>
-    <div v-else class="card ml-5 mr-5 mb-4">
+    <h1 class="text-light">Post a New Article</h1>
+    <p class="mt-4 text-light" v-if="!nowlogin">Please <a class="text-light" href="#" data-toggle="modal" data-target="#loginModal">login</a> to post an article</p>
+    <div v-else class="card mt-4 ml-5 mr-5 mb-4">
       <div class="card-body">
         <div class="form-group">
           <input id="title" type="text" class="form-control" placeholder="Article Title" required="required" v-model="titleInput">
@@ -60,5 +60,7 @@ export default {
 </script>
 
 <style>
-
+.card {
+  background: rgba(255, 255, 255, 0.5);
+}
 </style>

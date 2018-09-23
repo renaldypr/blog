@@ -1,4 +1,5 @@
 const Article = require('../models/article');
+const googleTranslate = require('google-translate')(process.env.API_KEY);
 
 module.exports = {
   showAll: function(req,res) {
@@ -134,6 +135,32 @@ module.exports = {
           message: err
         })
       }
+    })
+  },
+  translate: function(req,res) {
+    googleTranslate.translate(req.body.title, 'id', function(err, translationTitle) {
+      if (!err) {
+        googleTranslate.translate(req.body.content, 'id', function(err, translationContent) {
+          if (!err) {
+            res.status(200).json({
+              message: 'translate success!',
+              data: {
+                newTitle: translationTitle.translatedText,
+                newContent: translationContent.translatedText
+              }
+            })
+          } else {
+            res.status(500).json({
+              message: err
+            })
+          }
+        })
+      } else {
+        res.status(500).json({
+          message: err
+        })
+      }
+
     })
   }
 }

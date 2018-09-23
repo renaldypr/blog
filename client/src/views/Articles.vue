@@ -2,10 +2,10 @@
   <div class="articles">
     <div class="row">
       <div class="col-lg-4 pr-0 border-right">
-        <LeftColumn v-bind:refresh="refreshArticle"/>
+        <LeftColumn v-on:search-article="searchArticle" v-bind:refresh="refreshArticle"/>
       </div>
       <div class="col-lg-8 pl-5 pr-5">
-        <router-view v-bind:nowlogin="islogin" v-on:refresh-article="generateRefreshArticle"/>
+        <router-view v-bind:searcharticle="searchQuery" v-bind:nowlogin="islogin" v-on:refresh-article="generateRefreshArticle"/>
       </div>
     </div><br>
   </div>
@@ -17,21 +17,25 @@ import LeftColumn from '@/components/LeftColumn.vue'
 export default {
   name: 'articles',
   props: [ 'islogin' ],
-  data() {
+  data () {
     return {
-      refreshArticle: false
+      refreshArticle: false,
+      searchQuery: ''
     }
   },
   components: {
     LeftColumn
   },
   methods: {
-    generateRefreshArticle: function() {
+    generateRefreshArticle: function () {
       if (this.refreshArticle) {
         this.refreshArticle = false
       } else {
         this.refreshArticle = true
       }
+    },
+    searchArticle: function (query) {
+      this.searchQuery = query
     }
   }
 }
@@ -39,6 +43,6 @@ export default {
 
 <style scoped>
 .row {
-  margin-top: 20px;
+  padding-top: 20px;
 }
 </style>

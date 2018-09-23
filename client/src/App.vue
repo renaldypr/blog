@@ -49,6 +49,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background: url('http://www.sompaisoscatalans.cat/simage/29/299932/os-x-mavericks-wallpaper.jpg');
+  background-size: 100%;
 }
 #nav {
   padding: 30px;
@@ -58,17 +60,20 @@ export default {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }
 .row {
-  height: 550px;
+  height: 570px;
 }
 .col-lg-4, .col-lg-8 {
   overflow: scroll;
 }
-.btn-secondary {
-  background-color: #1e1544;
+.btn {
+  order:0px solid transparent;
+  background: rgb(11, 85, 60);
+}
+.btn:hover {
+  background: rgb(12, 37, 82);
 }
 </style>

@@ -1,20 +1,20 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="#">BlogIt</a>
+      <a class="navbar-brand ml-3" href="#"><router-link to="/"><b>BlogIt</b></router-link></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <router-link class ="nav-link" to="/">Home</router-link>
+            <router-link class ="nav-link mr-5" to="/">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class ="nav-link" to="/articles">Articles</router-link>
+            <router-link class ="nav-link mr-5" to="/articles">Articles</router-link>
           </li>
           <li class="nav-item">
-            <a v-if="!isLogin" class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
+            <a v-if="!isLogin" class="nav-link mr-5" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
           </li>
           <li class="nav-item">
             <a v-if="!isLogin" class="nav-link" href="#" data-toggle="modal" data-target="#registerModal">Register</a>
@@ -70,6 +70,10 @@ export default {
 
 <style scoped>
 .navbar {
-  background-color: #15441e
+  /* background: rgba(0, 0, 0, 0.0);  */
+  background: rgba(0, 0, 0, 0.5);
+}
+.navbar-brand a{
+  color: white;
 }
 </style>
